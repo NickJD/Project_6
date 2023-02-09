@@ -29,6 +29,7 @@ def main():
                         help='Which annotation file to add to reference annotation?')
     required.add_argument('-o', dest='output_file', required=True,
                         help='Output filename')
+    
 
     optional = parser.add_argument_group('Optional Arguments')
     optional.add_argument('-rt', dest='reference_tool', required=False,
@@ -40,7 +41,9 @@ def main():
                         help='Default - False: Mark reference annotations which where present in the additional tool annotation')
     optional.add_argument('-olap', dest='overlap', default=50, type=int, required=False,
                         help='Maximum overlap between reference and additional genic regions (CDS,rRNA etc) - Default: 50 nt')
-
+    optional.add_argument('-pred', dest='deepgoplus', required=False,
+                        help='Use DeepGoPlus to predict unnanotated protein functions')
+    
     options = parser.parse_args()
 
     gff_adder(options)
