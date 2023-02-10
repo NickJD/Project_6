@@ -3,19 +3,25 @@ import argparse
 import collections
 from datetime import date
 import sys
+
 try:
     from ORForise.utils import sortORFs  # Calling from ORForise via pip
+    from ORForise.GFF_Adder import gff_adder  # Calling from ORForise via pip
     from .Constants import *
-
+except (ModuleNotFoundError, ImportError, NameError, TypeError) as error:
+    sys.path.insert(0, '../../../ORForise/src/ORForise/') # Calling from ORForise locally (StORF_Reporter and ORForise in same dir)
+    from utils import sortORFs
+    from GFF_Adder import gff_adder
+    from Constants import *
 
 
 ########################################
 
 
 def main():
-    print("Thank you for using ORForise\nPlease report any issues to: https://github.com/NickJD/ORForise/issues\n#####")
+    print("Thank you for using GF_Finisher\nPlease report any issues to: https://github.com/NickJD/ORForise/issues\n#####")
 
-    parser = argparse.ArgumentParser(description='ORForise ' + ORForise_Version + ': GFF-Adder Run Parameters.')
+    parser = argparse.ArgumentParser(description='GFF Combiner: Run Parameters.')
     parser._action_groups.pop()
 
     required = parser.add_argument_group('Required Arguments')

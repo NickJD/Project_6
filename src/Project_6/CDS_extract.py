@@ -61,7 +61,7 @@ def revCompIterative(watson): #Gets Reverse Complement
 
 def write_fasta(dna_regions, fasta_outfile):
     for dna_region, dna_region_ur in dna_regions.items():
-        fasta_outfile.write('##sequence-region\t' + dna_region + ' 1 ' + str(len(dna_region_ur[0])) + '\n')
+      #  fasta_outfile.write('##sequence-region\t' + dna_region + ' 1 ' + str(len(dna_region_ur[0])) + '\n')
         if dna_region_ur[3]:
             for storf, seq in dna_region_ur[3].items():
                 aa_seq = translate_frame(seq)
@@ -142,10 +142,12 @@ def gff_load(options,gff_in,dna_regions):
             try:
                 if line_data[0] in dna_regions:
                     if 'CDS' in line_data[2]:
+                        annotations = line_data[1]
                         has_storfs = True
-                        pos = line_data[3] + '_' + line_data[4] + '_' + line_data[6]
+                        pos = line_data[3] + '_' + line_data[4] + '_' + line_data[6] + '_' + annotations
                         if pos not in dna_regions[line_data[0]][2]:
                             dna_regions[line_data[0]][2].append(pos) # This will add to list
+
             except IndexError:
                 continue
     if has_storfs == False:
@@ -207,9 +209,10 @@ def main():
 
 
 
-    options = parser.parse_args()
 
-    options.fasta_outfile = open('./test.fa','w')
+    options = parser.parse_args()
+    filename_tmp = options.gff.replace('.gff','_Extracted_Fasta.fasta')
+    options.fasta_outfile = open(filename_tmp,'w')
     fasta_extractor(options)
 
 
